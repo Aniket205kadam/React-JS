@@ -89,3 +89,64 @@ function Signup() {
 - ref: The ref connects the input to the form, allowing React Hook Form to directly access the input's value from the DOM, bypassing the need for React state.
 - No Re-renders: This eliminates the need for useState, preventing unnecessary re-renders on every input change.
 - Efficient Form Management: React Hook Form simplifies validation and form submission by automatically collecting and managing the form values.
+
+
+```javascript
+<Controller 
+            name={name || "content"}
+            control={control}
+            render={({field: {onChange}}) => (
+                <Editor
+                    initialValue={defaultValue}
+                    init={{
+                        initialValue: defaultValue,
+                        height: 500,
+                        menubar: true,
+                        plugins: [
+                            "image",
+                            "advlist",
+                            "autolink",
+                            "lists",
+                            "link",
+                            "image",
+                            "charmap",
+                            "preview",
+                            "anchor",
+                            "searchreplace",
+                            "visualblocks",
+                            "code",
+                            "fullscreen",
+                            "insertdatetime",
+                            "media",
+                            "table",
+                            "code",
+                            "help",
+                            "wordcount",
+                            "anchor",
+                        ],
+                        toolbar:
+                        "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
+                        content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
+                    }}
+                    onEditorChange={onChange}
+                />
+            )}
+        />
+```
+## Explaination
+Using the Controller from React Hook Form, the TinyMCE editor is displayed as part of the form. The Controller connects the TinyMCE editor with the form's internal state.
+
+### Behavior:
+- <b style='color:#fcba03'>Displaying the Editor</b>:
+
+    The TinyMCE editor is rendered in the form via the Controller component.
+It is initialized with any default value (defaultValue) if provided.
+- <b style='color:#fcba03'>Handling Changes:</b>
+
+    When the user writes or modifies content in the TinyMCE editor, the changes are detected by the editor's onEditorChange event.
+    This event calls the onChange function (provided by React Hook Form via the Controller).
+    The onChange function updates the form's internal state with the new content.
+
+- <b style='color:#fcba03'>In Simple Words:</b>
+
+    Yes, when you type something inside the editor, the changes are reflected not only in the editor visually but also internally in the form's state. This connection ensures that the editor's value is always in sync with the form's state, which is essential for validation, submission, or other form-related tasks.
