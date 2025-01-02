@@ -6,7 +6,6 @@ import { login as authLogin } from '../store/authSlice';
 import { Button, Input, Logo } from './index';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import React from 'react';
 
 function Signup() {
   const navigate = useNavigate();

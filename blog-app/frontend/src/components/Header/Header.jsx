@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, LogoutBtn, Logo } from '../index';
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // learn
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status);
