@@ -21,9 +21,10 @@ function Home() {
 
     if (authStatus) {
         if (loading) {
-            // TODO: implement better loading
             return (
-                <h1>Loading...</h1> 
+                <div class="spinner-box">
+                    <div class="three-quarter-spinner"></div>
+                </div> 
             )
         } else if (posts.length === 0 && !loading) {
             return (

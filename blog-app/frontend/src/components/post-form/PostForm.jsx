@@ -7,8 +7,10 @@ import  fileService from '../../appwrite/fileUpload';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; 
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 function PostForm({post}) {
+  const [loading, setLoading] = useState(false);  
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
     defaultValues: {
         title: post?.title || '',
@@ -22,6 +24,7 @@ function PostForm({post}) {
 
    const onSubmit = async (data) => {
     // update the post
+    setLoading(true);
     if (post) {
         const file = data.image[0] ? fileService.uploadFile(data.image[0]) : null;
         // after uploading new file we can delete old file
@@ -30,6 +33,7 @@ function PostForm({post}) {
         }
         const dbPost = await databaseService.updatePost(post.$id, {...data, featuredImage: file ? file.$id : undefined});
         if (dbPost) {
+            setLoading(false);
             navigate(`/post/${dbPost.$id}`)
         }
     }
@@ -44,6 +48,7 @@ function PostForm({post}) {
                 userId: userData.$id
             })
             if (dbPost) {
+                setLoading(false);
                 navigate(`/post/${dbPost.$id}`);
             }
         }
@@ -116,7 +121,13 @@ function PostForm({post}) {
                     {...register("status", { required: true })}
                 />
                 <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                    {post ? "Update" : "Submit"}
+                    {loading ?
+                        <div class="button-loading">
+                            <div class="login-loading"></div>
+                        </div>
+                    : 
+                    post ? (<p>Update</p>) : (<p>Submit</p>)
+                    }
                 </Button>
             </div>
         </form>

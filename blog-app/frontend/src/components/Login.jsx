@@ -12,9 +12,10 @@ function Login() {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const login = async (data) => {
-    console.log("login :: testing :: data :: ", data); // remove before production
+    setLoading(true);
     setError("");
     try {
         const session = await authService.login(data);
@@ -22,6 +23,7 @@ function Login() {
             const userData = await authService.getCurrentUser();
             if (userData)
                 dispatch(authLogin({userData}));
+            setLoading(false);
             navigate("/"); // after the login user can redirect to the home page
         }
     } catch (error) {
@@ -79,7 +81,12 @@ function Login() {
                     <Button
                         type="submit"
                         className="w-full"
-                    >Sign in</Button>
+                    >{loading ? 
+                        <div class="button-loading">
+                            <div class="login-loading"></div>
+                        </div>
+                    : <p>Sign in</p>}
+                    </Button>
                 </div>
             </form>
         </div>

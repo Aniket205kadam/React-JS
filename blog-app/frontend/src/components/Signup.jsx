@@ -12,15 +12,18 @@ function Signup() {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
+  const [loading, setLoading] = useState(false);
+
 
   const signup = async (data) => {
-    console.log("testing :: Signup :: signup :: data :: ", data); // remove before produnction
+    setLoading(true);
     setError("");
     try {
         const userData = await authService.createAccount(data);
         if (userData) {
             const userData = await authService.getCurrentUser();
             dispatch(authLogin(userData));
+            setLoading(false);
             navigate("/");
         }
     } catch (error) {
@@ -82,7 +85,13 @@ function Signup() {
                     <Button
                         type="submit"
                         className="w-full"
-                    >Create Account</Button>
+                    >
+                        {loading ? 
+                        <div class="button-loading">
+                            <div class="login-loading"></div>
+                        </div>
+                    : <p>Create Account</p>}
+                    </Button>
                 </div>
             </form>
         </div>
