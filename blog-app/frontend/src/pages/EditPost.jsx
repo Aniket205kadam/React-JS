@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Container, PostForm } from '../components';
-import { DatabasesService } from '../appwrite/database';
+import databaseService from '../appwrite/database';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,8 +12,10 @@ function EditPost() {
 
     useEffect(() => {
         if (id) {
-            DatabasesService.getPost(id).then((post) => {
+            databaseService.getPost(id).then((post) => {
                 if (post) {
+                    console.log("post: ", post);
+                    
                     setPost(post);
                 }
             });

@@ -2,14 +2,14 @@ import config from '../config/config';
 import { Client, Account, ID } from 'appwrite';
 
 export class AuthService {
-    clinet = new Client();
+    client = new Client();
     account;
 
     constructor() {
-        this.clinet
+        this.client
             .setEndpoint(config.appWriteUrl)
             .setProject(config.appWriteProjectId);
-        this.account = new Account(this.clinet);
+        this.account = new Account(this.client);
     }
 
     async createAccount({email, password, name}) {
@@ -30,19 +30,20 @@ export class AuthService {
 
     async login({email, password}) {
         try {
-            return await this.account.createEmailPasswordSession()
+            return await this.account.createEmailPasswordSession(email, password);
         } catch (error) {
             console.error("AuthService :: login :: error", error);
+            return null;
         }
     }
 
     async getCurrentUser() {
         try {
-            return await this.account.get();
+            return await this.account.get();   
         } catch (error) {
-            console.error("AuthService :: getCurrentUser :: error", error);
+            // console.error("AuthService :: getCurrentUser :: error", error);
+            return null;
         }
-        return null;
     }
 
     async logout() {

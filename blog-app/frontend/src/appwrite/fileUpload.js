@@ -1,5 +1,5 @@
 import config from "../config/config";
-import { Client, ID, Databases, Storage, Query } from "appwrite";
+import { Client, ID, Databases, Storage } from "appwrite";
 
 export class FileService {
     client = new Client();
@@ -11,16 +11,17 @@ export class FileService {
             .setEndpoint(config.appWriteUrl)
             .setProject(config.appWriteProjectId);
         this.databases = new Databases(this.client);
-        this.storage = new Storage(this.storage);
+        this.storage = new Storage(this.client);
     }
 
     async uploadFile(file) {
         try {
-            return await this.storage.createFile(
+            const resp = await this.storage.createFile(
                 config.appWriteBucketId,
                 ID.unique(),
                 file
             );
+            return resp;
         } catch (error) {
             console.error("FileService :: uploadFile :: error", error);
             return false;
@@ -53,4 +54,4 @@ export class FileService {
     }
 }
 
-export default FileService;
+export default new FileService();

@@ -11,15 +11,18 @@ export class DatabasesService {
             .setEndpoint(config.appWriteUrl)
             .setProject(config.appWriteProjectId);
         this.databases = new Databases(this.client);
-        this.storage = new Storage(this.storage);
+        this.storage = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId}) {
+    async createPost({id, title, slug, content, featuredImage, status, userId}) {
         try {
-            return await this.databases.createDocument(
+            console.log("enter here", content);
+            console.log("enter here", typeof content);
+            
+            const resp =  await this.databases.createDocument(
                 config.appWriteDatabaseId,
                 config.appWriteCollectionId,
-                ID.unique,
+                ID.unique(),
                 {
                     title,
                     slug,
@@ -29,8 +32,11 @@ export class DatabasesService {
                     userId
                 }
             );
+            console.log("print result:", resp);
+            return resp;
         } catch (error) {
             console.error("DatabasesService :: createPost :: error", error);
+            return null;
         }
     }
 

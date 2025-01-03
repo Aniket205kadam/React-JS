@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatabasesService } from '../appwrite/database';
+import databaseService from '../appwrite/database';
 import { Container, PostCard } from '../components';
 import { useEffect, useState } from 'react';
 
@@ -7,9 +7,9 @@ function AllPost() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    DatabasesService.getAllActivePosts().then((posts) => {
+    databaseService.getAllActivePost().then((posts) => {
         if (posts) {
-            setPosts(posts); //TODO should be error occured here (Hint: use documents)
+            setPosts(posts.documents);
         }
     });
   }, []);

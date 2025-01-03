@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, LogoutBtn, Logo } from '../index';
-import { NavLink, Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,6 +37,9 @@ function Header() {
   },
   ];
 
+  const location = useLocation();
+  const isActive = (url) => location.pathname === url;
+
   return (
     <header className='py-3 shadow bg-gray-500'>
       <Container>
@@ -52,7 +55,8 @@ function Header() {
                 <li key={item.name}>
                   <button
                     onClick={() => navigate(item.url)}
-                    className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
+                    className={`inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full
+                      ${isActive(item.url) ? 'bg-blue-200 font-bold' : ''}`}
                   >{item.name}</button>
                 </li>
               ) : null
@@ -61,7 +65,7 @@ function Header() {
               <li>
                 <LogoutBtn />
               </li>
-            )} {/* when authStatus is true then the () is executed */}
+            )} {/* Renders LogoutBtn when authStatus is true */}
           </ul>
         </nav>
       </Container>
